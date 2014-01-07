@@ -1,0 +1,26 @@
+<?php
+/**
+ * @file
+ * Install and uninstall functions for the this module.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * @see islandora_newspaper_islandora_required_objects()
+ */
+function dgi_sample_install() {
+  module_load_include('inc', 'islandora', 'includes/solution_packs');
+  islandora_install_solution_pack('dgi_sample');
+  dgi_sample_accordion_pid_list();
+  dgi_sample_required_contect_node();
+  dgi_sample_required_about_node();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function dgi_sample_uninstall() {
+  module_load_include('inc', 'islandora', 'includes/solution_packs');
+  islandora_install_solution_pack('dgi_sample', 'uninstall');
+}

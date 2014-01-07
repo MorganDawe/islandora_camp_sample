@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fits xmlns="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/fits/fits_output http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd" version="0.6.2" timestamp="8/12/13 1:28 PM">
+  <identification status="CONFLICT">
+    <identity format="JPEG File Interchange Format" mimetype="image/jpeg" toolname="FITS" toolversion="0.6.2">
+      <tool toolname="Exiftool" toolversion="9.06" />
+      <tool toolname="NLNZ Metadata Extractor" toolversion="3.4GA" />
+      <version toolname="Exiftool" toolversion="9.06">1.01</version>
+    </identity>
+    <identity format="JPEG image data" mimetype="image/jpeg" toolname="FITS" toolversion="0.6.2">
+      <tool toolname="file utility" toolversion="5.09" />
+    </identity>
+  </identification>
+  <fileinfo>
+    <size toolname="Jhove" toolversion="1.5">49020</size>
+    <lastmodified toolname="Exiftool" toolversion="9.06" status="SINGLE_RESULT">2013:08:12 10:28:47-03:00</lastmodified>
+    <filepath toolname="OIS File Information" toolversion="0.1" status="SINGLE_RESULT">/tmp/islandora-68.OBJ.jpg</filepath>
+    <filename toolname="OIS File Information" toolversion="0.1" status="SINGLE_RESULT">/tmp/islandora-68.OBJ.jpg</filename>
+    <md5checksum toolname="OIS File Information" toolversion="0.1" status="SINGLE_RESULT">198e708eadf8797d3614db1816b4773f</md5checksum>
+    <fslastmodified toolname="OIS File Information" toolversion="0.1" status="SINGLE_RESULT">1376314127000</fslastmodified>
+  </fileinfo>
+  <filestatus />
+  <metadata>
+    <image>
+      <imageWidth toolname="Exiftool" toolversion="9.06" status="SINGLE_RESULT">668</imageWidth>
+      <imageHeight toolname="Exiftool" toolversion="9.06" status="SINGLE_RESULT">717</imageHeight>
+      <iccProfileName toolname="Exiftool" toolversion="9.06" status="SINGLE_RESULT">c2</iccProfileName>
+      <iccProfileVersion toolname="Exiftool" toolversion="9.06" status="SINGLE_RESULT">2.1.0</iccProfileVersion>
+      <YCbCrSubSampling toolname="Exiftool" toolversion="9.06" status="SINGLE_RESULT">2 2</YCbCrSubSampling>
+      <samplingFrequencyUnit toolname="Exiftool" toolversion="9.06" status="CONFLICT">inches</samplingFrequencyUnit>
+      <samplingFrequencyUnit toolname="NLNZ Metadata Extractor" toolversion="3.4GA" status="CONFLICT">in.</samplingFrequencyUnit>
+      <xSamplingFrequency toolname="Exiftool" toolversion="9.06">72</xSamplingFrequency>
+      <ySamplingFrequency toolname="Exiftool" toolversion="9.06">72</ySamplingFrequency>
+      <bitsPerSample toolname="Exiftool" toolversion="9.06" status="SINGLE_RESULT">8 8 8</bitsPerSample>
+      <lightSource toolname="NLNZ Metadata Extractor" toolversion="3.4GA" status="SINGLE_RESULT">unknown</lightSource>
+      <standard>
+        <mix:mix xmlns:mix="http://www.loc.gov/mix/v20">
+          <mix:BasicDigitalObjectInformation />
+          <mix:BasicImageInformation>
+            <mix:BasicImageCharacteristics>
+              <mix:imageWidth>668</mix:imageWidth>
+              <mix:imageHeight>717</mix:imageHeight>
+              <mix:PhotometricInterpretation>
+                <mix:ColorProfile>
+                  <mix:IccProfile>
+                    <mix:iccProfileName>c2</mix:iccProfileName>
+                    <mix:iccProfileVersion>2.1.0</mix:iccProfileVersion>
+                  </mix:IccProfile>
+                </mix:ColorProfile>
+                <mix:YCbCr>
+                  <mix:YCbCrSubSampling>
+                    <mix:yCbCrSubsampleHoriz>2</mix:yCbCrSubsampleHoriz>
+                    <mix:yCbCrSubsampleVert>2</mix:yCbCrSubsampleVert>
+                  </mix:YCbCrSubSampling>
+                </mix:YCbCr>
+              </mix:PhotometricInterpretation>
+            </mix:BasicImageCharacteristics>
+          </mix:BasicImageInformation>
+          <mix:ImageCaptureMetadata>
+            <mix:GeneralCaptureInformation />
+          </mix:ImageCaptureMetadata>
+          <mix:ImageAssessmentMetadata>
+            <mix:SpatialMetrics>
+              <mix:samplingFrequencyUnit>inches</mix:samplingFrequencyUnit>
+            </mix:SpatialMetrics>
+            <mix:ImageColorEncoding />
+          </mix:ImageAssessmentMetadata>
+        </mix:mix>
+      </standard>
+    </image>
+  </metadata>
+</fits>
+
