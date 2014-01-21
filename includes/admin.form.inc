@@ -16,7 +16,7 @@
  * @return array
  *   The Drupal form definition.
  */
-function dgi_sample_admin($form, $form_state) {
+function dgi_sample_admin(array $form, array $form_state) {
   module_load_include('inc', 'islandora', 'includes/solution_packs');
   module_load_include('inc', 'dgi_sample', 'includes/admin.form');
   $form = array();
@@ -84,7 +84,7 @@ function dgi_sample_admin($form, $form_state) {
 
   $nodes = array(
     'About' => '3dfbfeaf-cb77-4ac0-b16f-145af17649b5',
-    'Contect' => '329a2134-140a-4447-a59f-389948bef2ba',
+    'Contact' => '329a2134-140a-4447-a59f-389948bef2ba',
   );
 
   $node_options = array();
@@ -204,19 +204,19 @@ function dgi_sample_admin_submit($form, $form_state) {
       if ($form_state['values']['nodes']['About']) {
         dgi_sample_required_about_node();
       }
-      if ($form_state['values']['nodes']['Contect']) {
-        dgi_sample_required_contect_node();
+      if ($form_state['values']['nodes']['Contact']) {
+        dgi_sample_required_contact_node();
       }
       break;
 
     case 'edit-dgi-sample-required-node-delete':
       $about_nid = dgi_sample_uuid_get_nid('3dfbfeaf-cb77-4ac0-b16f-145af17649b5');
-      $contect_nid = dgi_sample_uuid_get_nid('329a2134-140a-4447-a59f-389948bef2ba');
+      $contact_nid = dgi_sample_uuid_get_nid('329a2134-140a-4447-a59f-389948bef2ba');
       if ($form_state['values']['nodes']['About']) {
         node_delete($about_nid);
       }
-      if ($form_state['values']['nodes']['Contect']) {
-        node_delete($contect_nid);
+      if ($form_state['values']['nodes']['Contact']) {
+        node_delete($contact_nid);
       }
       break;
 
@@ -247,7 +247,6 @@ function dgi_sample_delete_batch($checked = array()) {
       $batch['operations'][] = array('dgi_sample_delete_object', array($object));
     }
   }
-
   return $batch;
 }
 

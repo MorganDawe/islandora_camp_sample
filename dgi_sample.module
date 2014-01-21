@@ -42,64 +42,64 @@ function dgi_sample_islandora_required_objects(IslandoraTuque $connection) {
   $datastream->setContentFromFile("$module_path/objects/collections/sample/COLLECTION_POLICY.xml", FALSE);
   $collection_object->ingestDatastream($datastream);
 
-  $objs = file_scan_directory("$module_path/objects/sample_photos", "/.+/", array('recurse' => FALSE));
-  foreach ($objs as $obj) {
-    $filename = preg_replace('/[[:punct:]]/', '', $obj->filename);
+  $objects = file_scan_directory("$module_path/objects/sample_photos", "/.+/", array('recurse' => FALSE));
+  foreach ($objects as $object) {
+    $filename = preg_replace('/[[:punct:]]/', '', $object->filename);
     $filename = str_replace(' ', '_', $filename);
-    $img_objects[$obj->filename] = $connection->repository->constructObject("islandora:sample_$filename");
-    $img_objects[$obj->filename]->owner = 'admin';
-    $img_objects[$obj->filename]->label = $obj->filename;
-    $img_objects[$obj->filename]->models = 'islandora:sp_basic_image';
-    $img_objects[$obj->filename]->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'islandora:sample_collection');
+    $img_objects[$object->filename] = $connection->repository->constructObject("islandora:sample_$filename");
+    $img_objects[$object->filename]->owner = 'admin';
+    $img_objects[$object->filename]->label = $object->filename;
+    $img_objects[$object->filename]->models = 'islandora:sp_basic_image';
+    $img_objects[$object->filename]->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'islandora:sample_collection');
 
     // DC record.
-    $datastream = $img_objects[$obj->filename]->constructDatastream('DC');
+    $datastream = $img_objects[$object->filename]->constructDatastream('DC');
     $datastream->label = 'DC Record';
     $datastream->mimetype = 'text/xml';
-    $datastream->setContentFromFile("$module_path/objects/sample_photos/$obj->filename/DC.xml", FALSE);
-    $img_objects[$obj->filename]->ingestDatastream($datastream);
+    $datastream->setContentFromFile("$module_path/objects/sample_photos/$object->filename/DC.xml", FALSE);
+    $img_objects[$object->filename]->ingestDatastream($datastream);
 
     // MODS record.
-    $datastream = $img_objects[$obj->filename]->constructDatastream('MODS');
+    $datastream = $img_objects[$object->filename]->constructDatastream('MODS');
     $datastream->label = 'MODS Record';
     $datastream->mimetype = 'text/xml';
-    $datastream->setContentFromFile("$module_path/objects/sample_photos/$obj->filename/MODS.xml", FALSE);
-    $img_objects[$obj->filename]->ingestDatastream($datastream);
+    $datastream->setContentFromFile("$module_path/objects/sample_photos/$object->filename/MODS.xml", FALSE);
+    $img_objects[$object->filename]->ingestDatastream($datastream);
 
     // RELS-EXT.
-    $datastream = $img_objects[$obj->filename]->constructDatastream('RELS-EXT');
+    $datastream = $img_objects[$object->filename]->constructDatastream('RELS-EXT');
     $datastream->label = 'Fedora Object to Object Relationship Metadata.';
     $datastream->mimetype = 'application/rdf+xml';
-    $datastream->setContentFromFile("$module_path/objects/sample_photos/$obj->filename/RELS-EXT.rdf", FALSE);
-    $img_objects[$obj->filename]->ingestDatastream($datastream);
+    $datastream->setContentFromFile("$module_path/objects/sample_photos/$object->filename/RELS-EXT.rdf", FALSE);
+    $img_objects[$object->filename]->ingestDatastream($datastream);
 
     // OBJ.
-    $datastream = $img_objects[$obj->filename]->constructDatastream('OBJ');
-    $datastream->label = $obj->filename;
+    $datastream = $img_objects[$object->filename]->constructDatastream('OBJ');
+    $datastream->label = $object->filename;
     $datastream->mimetype = 'image/jpeg';
-    $datastream->setContentFromFile("$module_path/objects/sample_photos/$obj->filename/OBJ.jpg", FALSE);
-    $img_objects[$obj->filename]->ingestDatastream($datastream);
+    $datastream->setContentFromFile("$module_path/objects/sample_photos/$object->filename/OBJ.jpg", FALSE);
+    $img_objects[$object->filename]->ingestDatastream($datastream);
 
     // MEDIUM_SIZE.
-    $datastream = $img_objects[$obj->filename]->constructDatastream('MEDIUM_SIZE');
+    $datastream = $img_objects[$object->filename]->constructDatastream('MEDIUM_SIZE');
     $datastream->label = 'MEDIUM_SIZE';
     $datastream->mimetype = 'image/jpeg';
-    $datastream->setContentFromFile("$module_path/objects/sample_photos/$obj->filename/MEDIUM_SIZE.jpg", FALSE);
-    $img_objects[$obj->filename]->ingestDatastream($datastream);
+    $datastream->setContentFromFile("$module_path/objects/sample_photos/$object->filename/MEDIUM_SIZE.jpg", FALSE);
+    $img_objects[$object->filename]->ingestDatastream($datastream);
 
     // TN.
-    $datastream = $img_objects[$obj->filename]->constructDatastream('TN');
+    $datastream = $img_objects[$object->filename]->constructDatastream('TN');
     $datastream->label = 'TN';
     $datastream->mimetype = 'image/jpeg';
-    $datastream->setContentFromFile("$module_path/objects/sample_photos/$obj->filename/TN.jpg", FALSE);
-    $img_objects[$obj->filename]->ingestDatastream($datastream);
+    $datastream->setContentFromFile("$module_path/objects/sample_photos/$object->filename/TN.jpg", FALSE);
+    $img_objects[$object->filename]->ingestDatastream($datastream);
 
     // TECHMD.
-    $datastream = $img_objects[$obj->filename]->constructDatastream('TECHMD');
+    $datastream = $img_objects[$object->filename]->constructDatastream('TECHMD');
     $datastream->label = 'TECHMD';
     $datastream->mimetype = 'text/xml';
-    $datastream->setContentFromFile("$module_path/objects/sample_photos/$obj->filename/TECHMD.xml", FALSE);
-    $img_objects[$obj->filename]->ingestDatastream($datastream);
+    $datastream->setContentFromFile("$module_path/objects/sample_photos/$object->filename/TECHMD.xml", FALSE);
+    $img_objects[$object->filename]->ingestDatastream($datastream);
   }
   $object_array = array_merge($img_objects, array($collection_object));
   return array(
@@ -126,11 +126,11 @@ function dgi_sample_accordion_pid_list() {
  */
 function dgi_sample_get_pid_list() {
   $module_path = drupal_get_path('module', 'dgi_sample');
-  $objs = file_scan_directory("$module_path/objects/sample_photos", "/.+/", array('recurse' => FALSE));
+  $objects = file_scan_directory("$module_path/objects/sample_photos", "/.+/", array('recurse' => FALSE));
   $i = 0;
   $value = '';
-  foreach ($objs as $obj) {
-    $filename = preg_replace('/[[:punct:]]/', '', $obj->filename);
+  foreach ($objects as $object) {
+    $filename = preg_replace('/[[:punct:]]/', '', $object->filename);
     $filename = str_replace(' ', '_', $filename);
     if (islandora_object_load("islandora:sample_$filename") && $i < 4) {
       $value .= "islandora:sample_$filename,";
@@ -247,10 +247,10 @@ function dgi_sample_required_about_node() {
 }
 
 /**
- * Install Contect Node.
+ * Install Contact Node.
  */
-function dgi_sample_required_contect_node() {
-  $contect = "array(
+function dgi_sample_required_contact_node() {
+  $contact = "array(
     (object) array(
         'vid' => '24',
         'uid' => '16',
@@ -349,5 +349,5 @@ function dgi_sample_required_contect_node() {
         'node_export_drupal_version' => '7',
       ),
   )";
-  node_export_import($contect);
+  node_export_import($contact);
 }

@@ -13,7 +13,7 @@ function dgi_sample_install() {
   module_load_include('inc', 'islandora', 'includes/solution_packs');
   islandora_install_solution_pack('dgi_sample');
   dgi_sample_accordion_pid_list();
-  dgi_sample_required_contect_node();
+  dgi_sample_required_contact_node();
   dgi_sample_required_about_node();
 }
 

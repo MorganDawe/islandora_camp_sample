@@ -3,5 +3,4 @@ description = manage sample objects and nodes.
 dependencies[] = islandora
 dependencies[] = uuid
 dependencies[] = node_export
-files[] = includes/utilities.inc
 core = 7.x
