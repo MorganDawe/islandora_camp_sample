@@ -1,0 +1,353 @@
+<?php
+
+/**
+ * @file
+ * Hooks and callbacks for this module.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function dgi_sample_menu() {
+  $items = array();
+  $items['admin/islandora/sample'] = array(
+    'title' => 'Sample contents',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('administer site configuration'),
+    'page arguments' => array('dgi_sample_admin'),
+    'file' => 'includes/admin.form.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_islandora_required_objects().
+ */
+function dgi_sample_islandora_required_objects(IslandoraTuque $connection) {
+  $module_path = drupal_get_path('module', 'dgi_sample');
+
+  // Image Objects.
+  $img_objects = array();
+
+  $collection_object = $connection->repository->constructObject("islandora:sample_collection");
+  $collection_object->owner = 'admin';
+  $collection_object->label = 'Sample';
+  $collection_object->models = 'islandora:collectionCModel';
+
+  // COLLECTION_POLICY.
+  $datastream = $collection_object->constructDatastream('COLLECTION_POLICY');
+  $datastream->label = 'COLLECTION_POLICY';
+  $datastream->mimetype = 'image/jpeg';
+  $datastream->setContentFromFile("$module_path/objects/collections/sample/COLLECTION_POLICY.xml", FALSE);
+  $collection_object->ingestDatastream($datastream);
+
+  $objs = file_scan_directory("$module_path/objects/sample_photos", "/.+/", array('recurse' => FALSE));
+  foreach ($objs as $obj) {
+    $filename = preg_replace('/[[:punct:]]/', '', $obj->filename);
+    $filename = str_replace(' ', '_', $filename);
+    $img_objects[$obj->filename] = $connection->repository->constructObject("islandora:sample_$filename");
+    $img_objects[$obj->filename]->owner = 'admin';
+    $img_objects[$obj->filename]->label = $obj->filename;
+    $img_objects[$obj->filename]->models = 'islandora:sp_basic_image';
+    $img_objects[$obj->filename]->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'islandora:sample_collection');
+
+    // DC record.
+    $datastream = $img_objects[$obj->filename]->constructDatastream('DC');
+    $datastream->label = 'DC Record';
+    $datastream->mimetype = 'text/xml';
+    $datastream->setContentFromFile("$module_path/objects/sample_photos/$obj->filename/DC.xml", FALSE);
+    $img_objects[$obj->filename]->ingestDatastream($datastream);
+
+    // MODS record.
+    $datastream = $img_objects[$obj->filename]->constructDatastream('MODS');
+    $datastream->label = 'MODS Record';
+    $datastream->mimetype = 'text/xml';
+    $datastream->setContentFromFile("$module_path/objects/sample_photos/$obj->filename/MODS.xml", FALSE);
+    $img_objects[$obj->filename]->ingestDatastream($datastream);
+
+    // RELS-EXT.
+    $datastream = $img_objects[$obj->filename]->constructDatastream('RELS-EXT');
+    $datastream->label = 'Fedora Object to Object Relationship Metadata.';
+    $datastream->mimetype = 'application/rdf+xml';
+    $datastream->setContentFromFile("$module_path/objects/sample_photos/$obj->filename/RELS-EXT.rdf", FALSE);
+    $img_objects[$obj->filename]->ingestDatastream($datastream);
+
+    // OBJ.
+    $datastream = $img_objects[$obj->filename]->constructDatastream('OBJ');
+    $datastream->label = $obj->filename;
+    $datastream->mimetype = 'image/jpeg';
+    $datastream->setContentFromFile("$module_path/objects/sample_photos/$obj->filename/OBJ.jpg", FALSE);
+    $img_objects[$obj->filename]->ingestDatastream($datastream);
+
+    // MEDIUM_SIZE.
+    $datastream = $img_objects[$obj->filename]->constructDatastream('MEDIUM_SIZE');
+    $datastream->label = 'MEDIUM_SIZE';
+    $datastream->mimetype = 'image/jpeg';
+    $datastream->setContentFromFile("$module_path/objects/sample_photos/$obj->filename/MEDIUM_SIZE.jpg", FALSE);
+    $img_objects[$obj->filename]->ingestDatastream($datastream);
+
+    // TN.
+    $datastream = $img_objects[$obj->filename]->constructDatastream('TN');
+    $datastream->label = 'TN';
+    $datastream->mimetype = 'image/jpeg';
+    $datastream->setContentFromFile("$module_path/objects/sample_photos/$obj->filename/TN.jpg", FALSE);
+    $img_objects[$obj->filename]->ingestDatastream($datastream);
+
+    // TECHMD.
+    $datastream = $img_objects[$obj->filename]->constructDatastream('TECHMD');
+    $datastream->label = 'TECHMD';
+    $datastream->mimetype = 'text/xml';
+    $datastream->setContentFromFile("$module_path/objects/sample_photos/$obj->filename/TECHMD.xml", FALSE);
+    $img_objects[$obj->filename]->ingestDatastream($datastream);
+  }
+  $object_array = array_merge($img_objects, array($collection_object));
+  return array(
+    'dgi_sample' => array(
+      'title' => 'DGI Sample content',
+      'objects' => $object_array,
+    ),
+  );
+}
+
+/**
+ * Set the accordion pid list variable.
+ */
+function dgi_sample_accordion_pid_list() {
+  $value = dgi_sample_get_pid_list();
+  variable_set('accordion_pid_list', $value);
+}
+
+/**
+ * Get the pid list for sample objects.
+ * 
+ * @return string
+ *   The pid list.
+ */
+function dgi_sample_get_pid_list() {
+  $module_path = drupal_get_path('module', 'dgi_sample');
+  $objs = file_scan_directory("$module_path/objects/sample_photos", "/.+/", array('recurse' => FALSE));
+  $i = 0;
+  $value = '';
+  foreach ($objs as $obj) {
+    $filename = preg_replace('/[[:punct:]]/', '', $obj->filename);
+    $filename = str_replace(' ', '_', $filename);
+    if (islandora_object_load("islandora:sample_$filename") && $i < 4) {
+      $value .= "islandora:sample_$filename,";
+      $i++;
+    }
+  }
+  return $value;
+}
+
+/**
+ * Install About node.
+ */
+function dgi_sample_required_about_node() {
+  $about = "array(
+    (object) array(
+    'vid' => '25',
+    'uid' => '16',
+    'title' => 'About',
+    'log' => '',
+    'status' => '1',
+    'comment' => '1',
+    'promote' => '0',
+    'sticky' => '0',
+    'vuuid' => '97667383-3f6c-4db7-a93c-c5112ae72e99',
+    'nid' => '5',
+    'type' => 'page',
+    'language' => 'und',
+    'created' => '1381843913',
+    'changed' => '1381843913',
+    'tnid' => '0',
+    'translate' => '0',
+    'uuid' => '3dfbfeaf-cb77-4ac0-b16f-145af17649b5',
+    'revision_timestamp' => '1381843913',
+    'revision_uid' => '16',
+    'body' => array(
+      'und' => array(
+        array(
+          'value' => \"The discoverygarden platform leverages the flexibility of Islandora, an open source digital asset management system; supporting a variety of file formats including PDF, TIFF, JPEG, and various audio and video file formats through the standard Islandora Solution Packs.  \r\n\r\nThe platform is fully hosted providing customers with automated software updates. The platform can be purchased based on the amount of cloud storage needed. \r\n\r\nThe discoverygarden platform will include access to monthly training, a web-based knowledge center that will include frequently asked questions and other tools to aid in platform management, in addition discoverygarden intends to provide instant messaging support through the knowledge center for customers who require assistance. Monthly support packages are available in addition to the other support-style services included with the platform. \r\n\r\nThe discoverygarden platform can be used to safeguard, preserve, and make accessible any content including special collections, archives, administrative documents, and traditional institutional repository content such as theses or dissertations. \r\nThe discoverygarden platform includes the scholar module, a suite of features focused on creating an easy to use and engaging institutional repository.  It addresses the need to encourage greater usage of institutional repositories by including numerous export and citation styles, as well as enhanced options to import publications using identifiers such as DOI and PMID. For administrators, a rights management feature allows clients to restrict and provide access to citations as necessary. The discoverygarden platform also provides statistics and reporting features, giving clients a better understanding of usage.\r\n\r\nHere is a list of the new features included in the discoverygarden platform: \r\n\r\n<ul>\r\n<li>Three standard theme options</li>\r\n<li>Rights management through our embargo module</li>\r\n<li>CiteProc and Citation Style Language (CSL) modules</li>\r\n<li>RoMEO, Zotero, and Bibutils Integration</li>\r\n<li>Citation Batch Importing for DOI, EndNote XML, PubMed ID, and RIS formats </li>\r\n<li>Citation Bookmarking and Batch Export</li>\r\n<li>Compliant with the Open Archives Initiative</li>\r\n<li>Able to integrate with Google Scholar</li>\r\n</ul>\r\n\r\ndiscoverygarden aims to facilitate continuous improvement of the hosted product by encouraging clients to collaborate in the future development decision-making process. Additional services are available to customers based on discoverygarden’s standard professional services rates. They include: \r\n<ul>\r\n<li>Consulting services </li>\r\n<li>Custom website theme</li>\r\n<li>Advanced training</li>\r\n<li>Data migration </li>\r\n<li>Metadata mapping</li>\r\n</ul>\r\n\r\nContact us today to get your own hosted discoverygarden platform. \r\n \r\n\r\n \",
+          'summary' => '',
+          'format' => 'filtered_html',
+          'safe_value' => \"<p>The discoverygarden platform leverages the flexibility of Islandora, an open source digital asset management system; supporting a variety of file formats including PDF, TIFF, JPEG, and various audio and video file formats through the standard Islandora Solution Packs.  </p>\n<p>The platform is fully hosted providing customers with automated software updates. The platform can be purchased based on the amount of cloud storage needed. </p>\n<p>The discoverygarden platform will include access to monthly training, a web-based knowledge center that will include frequently asked questions and other tools to aid in platform management, in addition discoverygarden intends to provide instant messaging support through the knowledge center for customers who require assistance. Monthly support packages are available in addition to the other support-style services included with the platform. </p>\n<p>The discoverygarden platform can be used to safeguard, preserve, and make accessible any content including special collections, archives, administrative documents, and traditional institutional repository content such as theses or dissertations.<br />\nThe discoverygarden platform includes the scholar module, a suite of features focused on creating an easy to use and engaging institutional repository.  It addresses the need to encourage greater usage of institutional repositories by including numerous export and citation styles, as well as enhanced options to import publications using identifiers such as DOI and PMID. For administrators, a rights management feature allows clients to restrict and provide access to citations as necessary. The discoverygarden platform also provides statistics and reporting features, giving clients a better understanding of usage.</p>\n<p>Here is a list of the new features included in the discoverygarden platform: </p>\n<ul><li>Three standard theme options</li>\n<li>Rights management through our embargo module</li>\n<li>CiteProc and Citation Style Language (CSL) modules</li>\n<li>RoMEO, Zotero, and Bibutils Integration</li>\n<li>Citation Batch Importing for DOI, EndNote XML, PubMed ID, and RIS formats </li>\n<li>Citation Bookmarking and Batch Export</li>\n<li>Compliant with the Open Archives Initiative</li>\n<li>Able to integrate with Google Scholar</li>\n</ul><p>discoverygarden aims to facilitate continuous improvement of the hosted product by encouraging clients to collaborate in the future development decision-making process. Additional services are available to customers based on discoverygarden’s standard professional services rates. They include: </p>\n<ul><li>Consulting services </li>\n<li>Custom website theme</li>\n<li>Advanced training</li>\n<li>Data migration </li>\n<li>Metadata mapping</li>\n</ul><p>Contact us today to get your own hosted discoverygarden platform.</p>\n\",
+          'safe_summary' => '',
+        ),
+      ),
+    ),
+    'rdf_mapping' => array(
+      'rdftype' => array(
+      'foaf:Document',
+    ),
+    'title' => array(
+      'predicates' => array(
+        'dc:title',
+      ),
+    ),
+    'created' => array(
+      'predicates' => array(
+        'dc:date',
+        'dc:created',
+       ),
+      'datatype' => 'xsd:dateTime',
+      'callback' => 'date_iso8601',
+    ),
+    'changed' => array(
+    'predicates' => array(
+      'dc:modified',
+     ),
+            'datatype' => 'xsd:dateTime',
+            'callback' => 'date_iso8601',
+          ),
+          'body' => array(
+            'predicates' => array(
+              'content:encoded',
+            ),
+          ),
+          'uid' => array(
+            'predicates' => array(
+              'sioc:has_creator',
+            ),
+            'type' => 'rel',
+          ),
+          'name' => array(
+            'predicates' => array(
+              'foaf:name',
+            ),
+          ),
+          'comment_count' => array(
+            'predicates' => array(
+              'sioc:num_replies',
+            ),
+            'datatype' => 'xsd:integer',
+          ),
+          'last_activity' => array(
+            'predicates' => array(
+              'sioc:last_activity_date',
+            ),
+            'datatype' => 'xsd:dateTime',
+            'callback' => 'date_iso8601',
+          ),
+        ),
+    'cid' => '0',
+    'last_comment_timestamp' => '1380047285',
+    'last_comment_name' => NULL,
+    'last_comment_uid' => '1',
+    'comment_count' => '0',
+    'name' => 'admin',
+    'picture' => '0',
+    'data' => NULL,
+    'path' => FALSE,
+    'menu' => NULL,
+    'node_export_drupal_version' => '7',
+    ),
+  )";
+  node_export_import($about);
+}
+
+/**
+ * Install Contect Node.
+ */
+function dgi_sample_required_contect_node() {
+  $contect = "array(
+    (object) array(
+        'vid' => '24',
+        'uid' => '16',
+        'title' => 'Contact',
+        'log' => '',
+        'status' => '1',
+        'comment' => '1',
+        'promote' => '0',
+        'sticky' => '0',
+        'vuuid' => '1a184baf-0988-4fa7-b1f4-ac0b1a39b4c8',
+        'nid' => '4',
+        'type' => 'page',
+        'language' => 'und',
+        'created' => '1381843913',
+        'changed' => '1381843913',
+        'tnid' => '0',
+        'translate' => '0',
+        'uuid' => '329a2134-140a-4447-a59f-389948bef2ba',
+        'revision_timestamp' => '1381843913',
+        'revision_uid' => '16',
+        'body' => array(
+          'und' => array(
+            array(
+              'value' => \"discoverygarden inc.\r\n\r\nSims Office Suites Building | 3rd Floor\r\n\r\n118 Sydney Street, Charlottetown, PE\r\n\r\nPhone: 902.367.3851\r\n\r\nEmail: info@discoverygarden.ca\r\n\r\nWeb: discoverygarden.ca\",
+              'summary' => '',
+              'format' => 'filtered_html',
+              'safe_value' => \"<p>discoverygarden inc.</p>\n<p>Sims Office Suites Building | 3rd Floor</p>\n<p>118 Sydney Street, Charlottetown, PE</p>\n<p>Phone: 902.367.3851</p>\n<p>Email: <a href=\\\"mailto:info@discoverygarden.ca\\\">info@discoverygarden.ca</a></p>\n<p>Web: discoverygarden.ca</p>\n\",
+              'safe_summary' => '',
+            ),
+          ),
+        ),
+        'rdf_mapping' => array(
+          'rdftype' => array(
+            'foaf:Document',
+          ),
+          'title' => array(
+            'predicates' => array(
+              'dc:title',
+            ),
+          ),
+          'created' => array(
+            'predicates' => array(
+              'dc:date',
+              'dc:created',
+            ),
+            'datatype' => 'xsd:dateTime',
+            'callback' => 'date_iso8601',
+          ),
+          'changed' => array(
+            'predicates' => array(
+              'dc:modified',
+            ),
+            'datatype' => 'xsd:dateTime',
+            'callback' => 'date_iso8601',
+          ),
+          'body' => array(
+            'predicates' => array(
+              'content:encoded',
+            ),
+          ),
+          'uid' => array(
+            'predicates' => array(
+              'sioc:has_creator',
+            ),
+            'type' => 'rel',
+          ),
+          'name' => array(
+            'predicates' => array(
+              'foaf:name',
+            ),
+          ),
+          'comment_count' => array(
+            'predicates' => array(
+              'sioc:num_replies',
+            ),
+            'datatype' => 'xsd:integer',
+          ),
+          'last_activity' => array(
+            'predicates' => array(
+              'sioc:last_activity_date',
+            ),
+            'datatype' => 'xsd:dateTime',
+            'callback' => 'date_iso8601',
+          ),
+        ),
+        'cid' => '0',
+        'last_comment_timestamp' => '1380047285',
+        'last_comment_name' => NULL,
+        'last_comment_uid' => '1',
+        'comment_count' => '0',
+        'name' => 'admin',
+        'picture' => '0',
+        'data' => NULL,
+        'path' => FALSE,
+        'menu' => NULL,
+        'node_export_drupal_version' => '7',
+      ),
+  )";
+  node_export_import($contect);
+}

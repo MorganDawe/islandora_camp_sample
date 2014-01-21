@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<mods xmlns="http://www.loc.gov/mods/v3" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <titleInfo><title>Big Brother to the Milky Way</title><subTitle></subTitle></titleInfo>
+  <name type="corporate"><namePart>NASA/JPL-Caltech</namePart><role><roleTerm authority="marcrelator" type="text">Photographer</roleTerm></role></name>
+  <typeOfResource>still image</typeOfResource>
+  <genre authority="lctgm">Outer space</genre>
+  <originInfo><dateIssued>2013-06-28</dateIssued><publisher>NASA</publisher><place><placeTerm authority="marccountry" type="code"/></place><place><placeTerm type="text"/></place></originInfo>
+  <language>
+    <languageTerm authority="iso639-2b" type="code">eng</languageTerm>
+  </language>
+  <abstract>This image from NASA's Galaxy Evolution Explorer shows NGC 6744, one of the galaxies most similar to our Milky Way in the local universe. This ultraviolet view highlights the vast extent of the fluffy spiral arms, and demonstrates that star formation can occur in the outer regions of galaxies.&#xD;
+&#xD;
+The galaxy is situated in the constellation of Pavo at a distance of about 30 million light-years.&#xD;
+&#xD;
+NGC 6744 is bigger than the Milky Way, with a disk stretching 175,000 light-years across. A small, distorted companion galaxy is located nearby, which is similar to our galaxy's Large Magellanic Cloud. This companion, called NGC 6744A, can be seen as a blob in the main galaxy's outer arm, at upper right.&#xD;
+&#xD;
+JPL managed the GALEX mission and built the science instrument. The mission's principal investigator, Chris Martin, is at Caltech. NASA's Goddard Space Flight Center in Greenbelt, Md., developed the mission under the Explorers Program it manages. Researchers sponsored by Yonsei University in South Korea and the Centre National d'Etudes Spatiales (CNES) in France collaborated on the mission. Caltech manages JPL for NASA.&#xD;
+&#xD;
+Graphics and additional information about the Galaxy Evolution Explorer are online at: http://www.nasa.gov/galex.</abstract>
+  <identifier type="local">PIA17247</identifier>
+  <physicalDescription><form authority="marcform">electronic resource</form><extent></extent></physicalDescription>
+  <note></note>
+  <subject><topic>United States. National Aeronautics and Space Administration.</topic><geographic></geographic><temporal></temporal><hierarchicalGeographic><continent>North America</continent><country></country><province></province><region></region><county></county><city></city><citySection></citySection></hierarchicalGeographic><cartographics><coordinates></coordinates></cartographics></subject>
+</mods>

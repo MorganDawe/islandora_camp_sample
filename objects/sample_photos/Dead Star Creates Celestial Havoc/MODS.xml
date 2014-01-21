@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<mods xmlns="http://www.loc.gov/mods/v3" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <titleInfo><title>Dead Star Creates Celestial Havoc</title><subTitle></subTitle></titleInfo>
+  <name type="corporate"><namePart>NASA/JPL-Caltech/ESA/CXC/Univ. of Ariz./Univ. of Szeged</namePart><role><roleTerm authority="marcrelator" type="text">Photographer</roleTerm></role></name>
+  <typeOfResource>still image</typeOfResource>
+  <genre authority="lctgm">Outer space</genre>
+  <originInfo><dateIssued>2006-10-27</dateIssued><publisher>NASA</publisher><place><placeTerm authority="marccountry" type="code"/></place><place><placeTerm type="text"/></place></originInfo>
+  <language>
+    <languageTerm authority="iso639-2b" type="code">eng</languageTerm>
+  </language>
+  <abstract>A star's spectacular death in the constellation Taurus was observed on Earth as the supernova of 1054 A.D. Now, almost a thousand years later, a superdense neutron star left behind by the stellar death is spewing out a blizzard of extremely high-energy particles into the expanding debris field known as the Crab Nebula.&#xD;
+&#xD;
+This composite image uses data from three of NASA's Great Observatories. The Chandra X-ray image is shown in light blue, the Hubble Space Telescope optical images are in green and dark blue, and the Spitzer Space Telescope's infrared image is in red. The size of the X-ray image is smaller than the others because ultrahigh-energy X-ray emitting electrons radiate away their energy more quickly than the lower-energy electrons emitting optical and infrared light. The neutron star, which has the mass equivalent to the sun crammed into a rapidly spinning ball of neutrons twelve miles across, is the bright white dot in the center of the image.</abstract>
+  <identifier type="local">PIA01320</identifier>
+  <physicalDescription><form authority="marcform">electronic resource</form><extent></extent></physicalDescription>
+  <note></note>
+  <subject><topic>United States. National Aeronautics and Space Administration.</topic><geographic></geographic><temporal></temporal><hierarchicalGeographic><continent>North America</continent><country></country><province></province><region></region><county></county><city></city><citySection></citySection></hierarchicalGeographic><cartographics><coordinates></coordinates></cartographics></subject>
+</mods>
