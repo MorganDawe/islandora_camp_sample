@@ -212,10 +212,10 @@ function dgi_sample_admin_submit($form, $form_state) {
     case 'edit-dgi-sample-required-node-delete':
       $about_nid = dgi_sample_uuid_get_nid('3dfbfeaf-cb77-4ac0-b16f-145af17649b5');
       $contact_nid = dgi_sample_uuid_get_nid('329a2134-140a-4447-a59f-389948bef2ba');
-      if ($form_state['values']['nodes']['About']) {
+      if (node_load($about_nid) && $form_state['values']['nodes']['About']) {
         node_delete($about_nid);
       }
-      if ($form_state['values']['nodes']['Contact']) {
+      if (node_load($contact_nid) && $form_state['values']['nodes']['Contact']) {
         node_delete($contact_nid);
       }
       break;
@@ -279,7 +279,7 @@ function dgi_sample_delete_object(AbstractObject $object, array &$context) {
  *   The uuid.
  * 
  * @return int
- *   The node id.
+ *   The node id or NULL if the node was not found.
  */
 function dgi_sample_uuid_get_nid($uuid) {
   $query = new EntityFieldQuery();
@@ -287,6 +287,6 @@ function dgi_sample_uuid_get_nid($uuid) {
       ->propertyCondition('uuid', $uuid)
       ->range(0, 1)
       ->execute();
-  $nodes = array_keys($entities['node']);
-  return $nodes[0];
+  $nodes = isset($entities['node']) ? array_keys($entities['node']) : array();
+  return empty($nodes) ? NULL : $nodes[0];
 }

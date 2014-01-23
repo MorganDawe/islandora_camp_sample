@@ -239,10 +239,30 @@ function dgi_sample_required_about_node() {
     'picture' => '0',
     'data' => NULL,
     'path' => FALSE,
-    'menu' => NULL,
-    'node_export_drupal_version' => '7',
+    'path' => array(
+      'pid' => '1',
+      'source' => 'node/5',
+      'alias' => 'about',
+      'language' => 'und',
     ),
-  )";
+    'menu' => array(
+      'mlid' => 0,
+      'plid' => '0',
+      'link_title' => 'About this site',
+      'menu_name' => 'menu-header-menu',
+      'weight' => '0',
+      'options' => array(),
+      'module' => 'menu',
+      'expanded' => '0',
+      'hidden' => '0',
+      'has_children' => '0',
+      'customized' => 0,
+      'parent_depth_limit' => 8,
+      'description' => '',
+      'enabled' => 1,
+    ),
+    'node_export_drupal_version' => '7',
+  ))";
   node_export_import($about);
 }
 
@@ -252,102 +272,178 @@ function dgi_sample_required_about_node() {
 function dgi_sample_required_contact_node() {
   $contact = "array(
     (object) array(
-        'vid' => '24',
-        'uid' => '16',
-        'title' => 'Contact',
-        'log' => '',
-        'status' => '1',
-        'comment' => '1',
-        'promote' => '0',
-        'sticky' => '0',
-        'vuuid' => '1a184baf-0988-4fa7-b1f4-ac0b1a39b4c8',
-        'nid' => '4',
-        'type' => 'page',
-        'language' => 'und',
-        'created' => '1381843913',
-        'changed' => '1381843913',
-        'tnid' => '0',
-        'translate' => '0',
-        'uuid' => '329a2134-140a-4447-a59f-389948bef2ba',
-        'revision_timestamp' => '1381843913',
-        'revision_uid' => '16',
-        'body' => array(
-          'und' => array(
-            array(
-              'value' => \"discoverygarden inc.\r\n\r\nSims Office Suites Building | 3rd Floor\r\n\r\n118 Sydney Street, Charlottetown, PE\r\n\r\nPhone: 902.367.3851\r\n\r\nEmail: info@discoverygarden.ca\r\n\r\nWeb: discoverygarden.ca\",
-              'summary' => '',
-              'format' => 'filtered_html',
-              'safe_value' => \"<p>discoverygarden inc.</p>\n<p>Sims Office Suites Building | 3rd Floor</p>\n<p>118 Sydney Street, Charlottetown, PE</p>\n<p>Phone: 902.367.3851</p>\n<p>Email: <a href=\\\"mailto:info@discoverygarden.ca\\\">info@discoverygarden.ca</a></p>\n<p>Web: discoverygarden.ca</p>\n\",
-              'safe_summary' => '',
-            ),
+      'vid' => '24',
+      'uid' => '16',
+      'title' => 'Contact',
+      'log' => '',
+      'status' => '1',
+      'comment' => '1',
+      'promote' => '0',
+      'sticky' => '0',
+      'vuuid' => '1a184baf-0988-4fa7-b1f4-ac0b1a39b4c8',
+      'nid' => '4',
+      'type' => 'page',
+      'language' => 'und',
+      'created' => '1381843913',
+      'changed' => '1381843913',
+      'tnid' => '0',
+      'translate' => '0',
+      'uuid' => '329a2134-140a-4447-a59f-389948bef2ba',
+      'revision_timestamp' => '1381843913',
+      'revision_uid' => '16',
+      'body' => array(
+        'und' => array(
+          array(
+            'value' => \"discoverygarden inc.\r\n\r\nSims Office Suites Building | 3rd Floor\r\n\r\n118 Sydney Street, Charlottetown, PE\r\n\r\nPhone: 902.367.3851\r\n\r\nEmail: info@discoverygarden.ca\r\n\r\nWeb: discoverygarden.ca\",
+            'summary' => '',
+            'format' => 'filtered_html',
+            'safe_value' => \"<p>discoverygarden inc.</p>\n<p>Sims Office Suites Building | 3rd Floor</p>\n<p>118 Sydney Street, Charlottetown, PE</p>\n<p>Phone: 902.367.3851</p>\n<p>Email: <a href=\\\"mailto:info@discoverygarden.ca\\\">info@discoverygarden.ca</a></p>\n<p>Web: discoverygarden.ca</p>\n\",
+            'safe_summary' => '',
           ),
         ),
-        'rdf_mapping' => array(
-          'rdftype' => array(
-            'foaf:Document',
-          ),
-          'title' => array(
-            'predicates' => array(
-              'dc:title',
-            ),
-          ),
-          'created' => array(
-            'predicates' => array(
-              'dc:date',
-              'dc:created',
-            ),
-            'datatype' => 'xsd:dateTime',
-            'callback' => 'date_iso8601',
-          ),
-          'changed' => array(
-            'predicates' => array(
-              'dc:modified',
-            ),
-            'datatype' => 'xsd:dateTime',
-            'callback' => 'date_iso8601',
-          ),
-          'body' => array(
-            'predicates' => array(
-              'content:encoded',
-            ),
-          ),
-          'uid' => array(
-            'predicates' => array(
-              'sioc:has_creator',
-            ),
-            'type' => 'rel',
-          ),
-          'name' => array(
-            'predicates' => array(
-              'foaf:name',
-            ),
-          ),
-          'comment_count' => array(
-            'predicates' => array(
-              'sioc:num_replies',
-            ),
-            'datatype' => 'xsd:integer',
-          ),
-          'last_activity' => array(
-            'predicates' => array(
-              'sioc:last_activity_date',
-            ),
-            'datatype' => 'xsd:dateTime',
-            'callback' => 'date_iso8601',
-          ),
-        ),
-        'cid' => '0',
-        'last_comment_timestamp' => '1380047285',
-        'last_comment_name' => NULL,
-        'last_comment_uid' => '1',
-        'comment_count' => '0',
-        'name' => 'admin',
-        'picture' => '0',
-        'data' => NULL,
-        'path' => FALSE,
-        'menu' => NULL,
-        'node_export_drupal_version' => '7',
       ),
+      'rdf_mapping' => array(
+        'rdftype' => array(
+          'foaf:Document',
+        ),
+        'title' => array(
+          'predicates' => array(
+            'dc:title',
+          ),
+        ),
+        'created' => array(
+          'predicates' => array(
+            'dc:date',
+            'dc:created',
+          ),
+          'datatype' => 'xsd:dateTime',
+          'callback' => 'date_iso8601',
+        ),
+        'changed' => array(
+          'predicates' => array(
+            'dc:modified',
+          ),
+          'datatype' => 'xsd:dateTime',
+          'callback' => 'date_iso8601',
+        ),
+        'body' => array(
+          'predicates' => array(
+            'content:encoded',
+          ),
+        ),
+        'uid' => array(
+          'predicates' => array(
+            'sioc:has_creator',
+          ),
+          'type' => 'rel',
+        ),
+        'name' => array(
+          'predicates' => array(
+            'foaf:name',
+          ),
+        ),
+        'comment_count' => array(
+          'predicates' => array(
+            'sioc:num_replies',
+          ),
+          'datatype' => 'xsd:integer',
+        ),
+        'last_activity' => array(
+          'predicates' => array(
+            'sioc:last_activity_date',
+          ),
+          'datatype' => 'xsd:dateTime',
+          'callback' => 'date_iso8601',
+        ),
+      ),
+      'cid' => '0',
+      'last_comment_timestamp' => '1380047285',
+      'last_comment_name' => NULL,
+      'last_comment_uid' => '1',
+      'comment_count' => '0',
+      'name' => 'admin',
+      'picture' => '0',
+      'data' => NULL,
+      'path' => array(
+        'pid' => '1',
+        'source' => 'node/4',
+        'alias' => 'make-contact',
+        'language' => 'und',
+      ),
+      'menu' => array(
+        'mlid' => 0,
+        'plid' => 0,
+        'link_title' => 'Make contact',
+        'menu_name' => 'menu-footer-menu',
+        'weight' => '-47',
+        'options' => array(),
+        'module' => 'menu',
+        'expanded' => '0',
+        'hidden' => '0',
+        'has_children' => '0',
+        'customized' => 0,
+        'parent_depth_limit' => 8,
+        'description' => '',
+        'enabled' => 1,
+      ),
+      'node_export_drupal_version' => '7',
+    ),
   )";
   node_export_import($contact);
+}
+
+
+/**
+ * Handles the inserting of deleted nodes, adds back paths etc.
+ *
+ * @param stdObject $node
+ *   The node being inserted.
+ */
+function dgi_sample_node_insert($node) {
+  if($node->uuid ==  '3dfbfeaf-cb77-4ac0-b16f-145af17649b5') {
+    $node->path = array(
+      'source' => "node/{$node->nid}",
+      'alias' => 'about',
+      'language' => 'und',
+    );
+    $node->menu = array(
+      'mlid' => 0,
+      'plid' => 0,
+      'link_title' => 'About this site',
+      'menu_name' => 'menu-header-menu',
+      'weight' => '0',
+      'options' => array(),
+      'module' => 'menu',
+      'expanded' => '0',
+      'hidden' => '0',
+      'has_children' => '0',
+      'customized' => 0,
+      'parent_depth_limit' => 8,
+      'description' => '',
+      'enabled' => 1,
+    );
+  }
+  else if($node->uuid ==  '329a2134-140a-4447-a59f-389948bef2ba') {
+    $node->path = array(
+      'source' => "node/{$node->nid}",
+      'alias' => 'make-contact',
+      'language' => 'und',
+    );
+    $node->menu = array(
+      'mlid' => 0,
+      'plid' => 0,
+      'link_title' => 'Make contact',
+      'menu_name' => 'menu-footer-menu',
+      'weight' => '-47',
+      'options' => array(),
+      'module' => 'menu',
+      'expanded' => '0',
+      'hidden' => '0',
+      'has_children' => '0',
+      'customized' => 0,
+      'parent_depth_limit' => 8,
+      'description' => 'Contact us',
+      'enabled' => 1,
+    );
+  }
 }
