@@ -30,10 +30,12 @@ function dgi_sample_islandora_required_objects(IslandoraTuque $connection) {
   // Image Objects.
   $img_objects = array();
 
+  // Sample Collection Object.
   $collection_object = $connection->repository->constructObject("islandora:sample_collection");
   $collection_object->owner = 'admin';
   $collection_object->label = 'Sample';
   $collection_object->models = 'islandora:collectionCModel';
+  $collection_object->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'islandora:root');
 
   // COLLECTION_POLICY.
   $datastream = $collection_object->constructDatastream('COLLECTION_POLICY');
