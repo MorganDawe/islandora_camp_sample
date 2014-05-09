@@ -1,6 +1,4 @@
 name = DGI Sample Content
-description = manage sample objects and nodes.
+description = manage sample objects.
 dependencies[] = islandora
-dependencies[] = uuid
-dependencies[] = node_export
 core = 7.x
