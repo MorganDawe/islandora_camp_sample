@@ -10,8 +10,7 @@ SUMMARY
 
 DGI Sample Module
 
-DGI hosted platforms makes use of this module to include sample photos as well as some sample Drupal content.
-Adds a About Us node, Contact Us node, and Mission statement block.
+DGI hosted platforms makes use of this module to include sample photos.
 
 It also provides a simple button that allows users to purge all sample content and start from scratch.
 

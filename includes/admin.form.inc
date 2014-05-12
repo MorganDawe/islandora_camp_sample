@@ -76,36 +76,6 @@ function dgi_sample_admin(array $form, array $form_state) {
       'status' => $status_msg);
   }
 
-  $node_headers = array(
-    'title' => t('Title'),
-    'nid' => t('Node ID'),
-    'status' => t('Status'),
-  );
-
-  $nodes = array(
-    'About' => '3dfbfeaf-cb77-4ac0-b16f-145af17649b5',
-    'Contact' => '329a2134-140a-4447-a59f-389948bef2ba',
-  );
-
-  $node_options = array();
-  foreach ($nodes as $key => $uuid) {
-    $nid = dgi_sample_uuid_get_nid($uuid);
-    $node_state = node_load($nid);
-    if ($node_state) {
-      $href = url("node/$nid");
-      $node_title = t('<a href="!href">!key</a>', array('!href' => $href, '!key' => $key));
-    }
-    else {
-      $node_title = t("!key", array('!key' => $key));
-    }
-
-    $node_options[$key] = array(
-      'title' => $node_title,
-      'nid' => $nid,
-      'status' => $node_state ? "{$status_info['up_to_date']['image']}&nbspup-to-date" : "{$status_info['missing']['image']}&nbspmissing",
-    );
-  }
-
   $form['dgi_sample_required_object']['objects'] = array(
     '#type' => 'tableselect',
     '#header' => $headers,
@@ -122,30 +92,6 @@ function dgi_sample_admin(array $form, array $form_state) {
     '#type' => 'button',
     '#executes_submit_callback' => TRUE,
     '#value' => t('Delete Objects'),
-  );
-
-  $form['dgi_sample_required_node'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Required Node'),
-    '#weight' => 5,
-    '#collapsible' => FALSE,
-    '#collapsed' => FALSE,
-  );
-  $form['dgi_sample_required_node']['nodes'] = array(
-    '#type' => 'tableselect',
-    '#header' => $node_headers,
-    '#options' => $node_options,
-  );
-  $form['dgi_sample_required_node']['dgi_sample_required_node_install'] = array(
-    '#type' => 'button',
-    '#executes_submit_callback' => TRUE,
-    '#value' => t('Install Nodes'),
-  );
-
-  $form['dgi_sample_required_node']['dgi_sample_required_node_delete'] = array(
-    '#type' => 'button',
-    '#executes_submit_callback' => TRUE,
-    '#value' => t('Delete Nodes'),
   );
 
   $form['dgi_sample_pid_list'] = array(
@@ -200,26 +146,6 @@ function dgi_sample_admin_submit($form, $form_state) {
       batch_set($batch);
       break;
 
-    case 'edit-dgi-sample-required-node-install':
-      if ($form_state['values']['nodes']['About']) {
-        dgi_sample_required_about_node();
-      }
-      if ($form_state['values']['nodes']['Contact']) {
-        dgi_sample_required_contact_node();
-      }
-      break;
-
-    case 'edit-dgi-sample-required-node-delete':
-      $about_nid = dgi_sample_uuid_get_nid('3dfbfeaf-cb77-4ac0-b16f-145af17649b5');
-      $contact_nid = dgi_sample_uuid_get_nid('329a2134-140a-4447-a59f-389948bef2ba');
-      if (node_load($about_nid) && $form_state['values']['nodes']['About']) {
-        node_delete($about_nid);
-      }
-      if (node_load($contact_nid) && $form_state['values']['nodes']['Contact']) {
-        node_delete($contact_nid);
-      }
-      break;
-
     case 'edit-dgi-sample-pid-list-button':
       dgi_sample_accordion_pid_list();
       break;
@@ -270,23 +196,4 @@ function dgi_sample_delete_object(AbstractObject $object, array &$context) {
       return;
     }
   }
-}
-
-/**
- * Get the node id by uuid.
- * 
- * @param string $uuid
- *   The uuid.
- * 
- * @return int
- *   The node id or NULL if the node was not found.
- */
-function dgi_sample_uuid_get_nid($uuid) {
-  $query = new EntityFieldQuery();
-  $entities = $query->entityCondition('entity_type', 'node')
-      ->propertyCondition('uuid', $uuid)
-      ->range(0, 1)
-      ->execute();
-  $nodes = isset($entities['node']) ? array_keys($entities['node']) : array();
-  return empty($nodes) ? NULL : $nodes[0];
 }
