@@ -22,6 +22,16 @@ function dgi_sample_menu() {
 }
 
 /**
+* Implements hook_css_alter().
+*/
+function dgi_sample_css_alter(&$css) {
+  // override Seven's css Admin stylesheet.
+  if (isset($css['themes/seven/style.css'])) {
+    $css['themes/seven/style.css']['data'] = drupal_get_path('module', 'dgi_sample') . '/css/seven_style.css';
+  }
+}
+
+/**
  * Implements hook_islandora_required_objects().
  */
 function dgi_sample_islandora_required_objects(IslandoraTuque $connection) {
