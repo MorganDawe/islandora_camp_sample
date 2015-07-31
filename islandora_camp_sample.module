@@ -8,13 +8,13 @@
 /**
  * Implements hook_menu().
  */
-function dgi_sample_menu() {
+function islandora_camp_sample_menu() {
   $items = array();
-  $items['admin/islandora/sample'] = array(
+  $items['admin/islandora/islandora_camp_sample'] = array(
     'title' => 'Sample contents',
     'page callback' => 'drupal_get_form',
     'access arguments' => array('administer site configuration'),
-    'page arguments' => array('dgi_sample_admin'),
+    'page arguments' => array('islandora_camp_sample_admin'),
     'file' => 'includes/admin.form.inc',
     'type' => MENU_NORMAL_ITEM,
   );
@@ -24,24 +24,24 @@ function dgi_sample_menu() {
 /**
 * Implements hook_css_alter().
 */
-function dgi_sample_css_alter(&$css) {
+function islandora_camp_sample_css_alter(&$css) {
   // override Seven's css Admin stylesheet.
   if (isset($css['themes/seven/style.css'])) {
-    $css['themes/seven/style.css']['data'] = drupal_get_path('module', 'dgi_sample') . '/css/seven_style.css';
+    $css['themes/seven/style.css']['data'] = drupal_get_path('module', 'islandora_camp_sample') . '/css/seven_style.css';
   }
 }
 
 /**
  * Implements hook_islandora_required_objects().
  */
-function dgi_sample_islandora_required_objects(IslandoraTuque $connection) {
-  $module_path = drupal_get_path('module', 'dgi_sample');
+function islandora_camp_sample_islandora_required_objects(IslandoraTuque $connection) {
+  $module_path = drupal_get_path('module', 'islandora_camp_sample');
 
   // Image Objects.
   $img_objects = array();
 
   // Sample Collection Object.
-  $collection_object = $connection->repository->constructObject("islandora:sample_collection");
+  $collection_object = $connection->repository->constructObject("islandora:islandora_camp_sample_collection");
   $collection_object->owner = 'admin';
   $collection_object->label = 'Sample';
   $collection_object->models = 'islandora:collectionCModel';
@@ -58,11 +58,11 @@ function dgi_sample_islandora_required_objects(IslandoraTuque $connection) {
   foreach ($objects as $object) {
     $filename = preg_replace('/[[:punct:]]/', '', $object->filename);
     $filename = str_replace(' ', '_', $filename);
-    $img_objects[$object->filename] = $connection->repository->constructObject("islandora:sample_$filename");
+    $img_objects[$object->filename] = $connection->repository->constructObject("islandora:islandora_camp_sample_$filename");
     $img_objects[$object->filename]->owner = 'admin';
     $img_objects[$object->filename]->label = $object->filename;
     $img_objects[$object->filename]->models = 'islandora:sp_basic_image';
-    $img_objects[$object->filename]->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'islandora:sample_collection');
+    $img_objects[$object->filename]->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'islandora:islandora_camp_sample_collection');
 
     // DC record.
     $datastream = $img_objects[$object->filename]->constructDatastream('DC');
@@ -115,8 +115,8 @@ function dgi_sample_islandora_required_objects(IslandoraTuque $connection) {
   }
   $object_array = array_merge($img_objects, array($collection_object));
   return array(
-    'dgi_sample' => array(
-      'title' => 'DGI Sample content',
+    'islandora_camp_sample' => array(
+      'title' => 'Islandora Camp Sample content',
       'objects' => $object_array,
     ),
   );
@@ -125,8 +125,8 @@ function dgi_sample_islandora_required_objects(IslandoraTuque $connection) {
 /**
  * Set the accordion pid list variable.
  */
-function dgi_sample_accordion_pid_list() {
-  $value = dgi_sample_get_pid_list();
+function islandora_camp_sample_accordion_pid_list() {
+  $value = islandora_camp_sample_get_pid_list();
   variable_set('accordion_pid_list', $value);
 }
 
@@ -136,16 +136,16 @@ function dgi_sample_accordion_pid_list() {
  * @return string
  *   The pid list.
  */
-function dgi_sample_get_pid_list() {
-  $module_path = drupal_get_path('module', 'dgi_sample');
+function islandora_camp_sample_get_pid_list() {
+  $module_path = drupal_get_path('module', 'islandora_camp_sample');
   $objects = file_scan_directory("$module_path/objects/sample_photos", "/.+/", array('recurse' => FALSE));
   $i = 0;
   $value = '';
   foreach ($objects as $object) {
     $filename = preg_replace('/[[:punct:]]/', '', $object->filename);
     $filename = str_replace(' ', '_', $filename);
-    if (islandora_object_load("islandora:sample_$filename") && $i < 4) {
-      $value .= "islandora:sample_$filename,";
+    if (islandora_object_load("islandora:islandora_camp_sample_$filename") && $i < 4) {
+      $value .= "islandora:islandora_camp_sample_$filename,";
       $i++;
     }
   }

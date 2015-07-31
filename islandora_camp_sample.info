@@ -1,0 +1,4 @@
+name = Islandora Camp Sample Objects
+description = Sample objects made available for Islandora Camp PE 2016
+dependencies[] = islandora
+core = 7.x

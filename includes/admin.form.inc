@@ -16,14 +16,14 @@
  * @return array
  *   The Drupal form definition.
  */
-function dgi_sample_admin(array $form, array $form_state) {
+function islandora_camp_sample_admin(array $form, array $form_state) {
   module_load_include('inc', 'islandora', 'includes/solution_packs');
-  module_load_include('inc', 'dgi_sample', 'includes/admin.form');
+  module_load_include('inc', 'islandora_camp_sample', 'includes/admin.form');
   $form = array();
-  $objects = islandora_solution_packs_get_required_objects('dgi_sample');
-  $form['dgi_sample_required_object'] = array(
+  $objects = islandora_solution_packs_get_required_objects('islandora_camp_sample');
+  $form['islandora_camp_sample_required_object'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Sample Object'),
+    '#title' => t('Islandora Camp Sample Objects'),
     '#weight' => 0,
     '#collapsible' => FALSE,
     '#collapsed' => FALSE,
@@ -76,39 +76,22 @@ function dgi_sample_admin(array $form, array $form_state) {
       'status' => $status_msg);
   }
 
-  $form['dgi_sample_required_object']['objects'] = array(
+  $form['islandora_camp_sample_required_object']['objects'] = array(
     '#type' => 'tableselect',
     '#header' => $headers,
     '#options' => $options,
   );
 
-  $form['dgi_sample_required_object']['dgi_sample_required_object_install'] = array(
+  $form['islandora_camp_sample_required_object']['islandora_camp_sample_required_object_install'] = array(
     '#type' => 'button',
     '#executes_submit_callback' => TRUE,
     '#value' => t('Install Objects'),
   );
 
-  $form['dgi_sample_required_object']['dgi_sample_required_object_delete'] = array(
+  $form['islandora_camp_sample_required_object']['islandora_camp_sample_required_object_delete'] = array(
     '#type' => 'button',
     '#executes_submit_callback' => TRUE,
     '#value' => t('Delete Objects'),
-  );
-
-  $form['dgi_sample_pid_list'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Accordion Pid List'),
-    '#weight' => 5,
-    '#collapsible' => FALSE,
-    '#collapsed' => FALSE,
-  );
-  $form['dgi_sample_pid_list']['velue'] = array(
-    '#type' => 'item',
-    '#markup' => t('<b>Accordion Pid List value:</b>&nbsp!value', array('!value' => dgi_sample_get_pid_list())),
-  );
-  $form['dgi_sample_pid_list']['dgi_sample_pid_list_button'] = array(
-    '#type' => 'button',
-    '#executes_submit_callback' => TRUE,
-    '#value' => t('Reset Accordion Pid List'),
   );
 
   return $form;
@@ -122,55 +105,52 @@ function dgi_sample_admin(array $form, array $form_state) {
  * @param array $form_state
  *   The Drupal form state.
  */
-function dgi_sample_admin_submit($form, $form_state) {
+function islandora_camp_sample_admin_submit($form, $form_state) {
   switch ($form_state['clicked_button']['#id']) {
-    case 'edit-dgi-sample-required-object-install':
+    case 'edit-islandora-camp-sample-required-object-install':
       $not_checked = array();
       foreach ($form_state['values']['objects'] as $key => $object) {
         if ($object === 0) {
-          $not_checked[] = $form['dgi_sample_required_object']['objects']['#options'][$key]['pid'];
+          $not_checked[] = $form['islandora_camp_sample_required_object']['objects']['#options'][$key]['pid'];
         }
       }
-      $batch = islandora_solution_pack_get_batch('dgi_sample', $not_checked);
+      $batch = islandora_solution_pack_get_batch('islandora_camp_sample', $not_checked);
       batch_set($batch);
       break;
 
-    case 'edit-dgi-sample-required-object-delete':
+    case 'edit-islandora-camp-sample-required-object-delete':
       $checked = array();
       foreach ($form_state['values']['objects'] as $key => $object) {
         if ($object !== 0) {
-          $checked[] = $form['dgi_sample_required_object']['objects']['#options'][$key];
+          $checked[] = $form['islandora_camp_sample_required_object']['objects']['#options'][$key];
         }
       }
-      $batch = dgi_sample_delete_batch($checked);
+      $batch = islandora_camp_sample_delete_batch($checked);
       batch_set($batch);
       break;
 
-    case 'edit-dgi-sample-pid-list-button':
-      dgi_sample_accordion_pid_list();
-      break;
   }
 }
 
 /**
  * Get the delete batch array.
- * 
+ *
  * @param array $checked
  *   An array of checked object.
- * 
+ *
  * @return array
  *   The batch array.
  */
-function dgi_sample_delete_batch($checked = array()) {
+function islandora_camp_sample_delete_batch($checked = array()) {
   $batch = array(
     'title' => t('Installing / Updating solution pack objects'),
-    'file' => drupal_get_path('module', 'dgi_sample') . '/includes/admin.form.inc',
+    'file' => drupal_get_path('module', 'islandora_camp_sample') . '/includes/admin.form.inc',
     'operations' => array(),
   );
   foreach ($checked as $check_op) {
     $object = islandora_object_load($check_op['pid']);
     if ($object) {
-      $batch['operations'][] = array('dgi_sample_delete_object', array($object));
+      $batch['operations'][] = array('islandora_camp_sample_delete_object', array($object));
     }
   }
   return $batch;
@@ -184,7 +164,7 @@ function dgi_sample_delete_batch($checked = array()) {
  * @param array $context
  *   The context of this batch operation.
  */
-function dgi_sample_delete_object(AbstractObject $object, array &$context) {
+function islandora_camp_sample_delete_object(AbstractObject $object, array &$context) {
   $existing_object = islandora_object_load($object->id);
   if ($existing_object) {
     $deleted = islandora_delete_object($existing_object);

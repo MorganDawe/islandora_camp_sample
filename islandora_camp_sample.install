@@ -9,16 +9,16 @@
  *
  * @see islandora_newspaper_islandora_required_objects()
  */
-function dgi_sample_install() {
+function islandora_camp_sample_install() {
   module_load_include('inc', 'islandora', 'includes/solution_packs');
-  islandora_install_solution_pack('dgi_sample');
+  islandora_install_solution_pack('islandora_camp_sample');
   dgi_sample_accordion_pid_list();
 }
 
 /**
  * Implements hook_uninstall().
  */
-function dgi_sample_uninstall() {
+function islandora_camp_sample_uninstall() {
   module_load_include('inc', 'islandora', 'includes/solution_packs');
-  islandora_install_solution_pack('dgi_sample', 'uninstall');
+  islandora_install_solution_pack('islandora_camp_sample', 'uninstall');
 }

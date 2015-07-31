@@ -1,4 +1,0 @@
-name = DGI Sample Content
-description = manage sample objects.
-dependencies[] = islandora
-core = 7.x
