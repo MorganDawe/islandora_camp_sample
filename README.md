@@ -1,7 +1,7 @@
 SUMMARY
 -------
 
-Islandora Camp 2016 Sample objects module
+Islandora Camp 2015 Sample objects module
 
 Make use of this module to provide default objects to attendees of islandora camp.
 
